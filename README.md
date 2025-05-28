@@ -12,25 +12,49 @@ This is a mobile app built with **Flutter** that allows workers to **register, l
   - SHA1 password hashing.
 - 🔑 **Login Functionality**
   - Validates credentials with PHP API.
+  - Auto-login via "Remember Me" with `SharedPreferences`
   - Displays error for incorrect login.
 - 🔁 **Session Persistence**
   - Auto login with SharedPreferences ("Remember Me").
-- 👤 **Profile Management**
+- 👤 **Worker Profile**
   - Displays full worker info (ID, name, email, phone, address).
   - Shows greeting (e.g., "Welcome, Abu Bakar").
   - Allows logout.
+- 📝 **Task List + Submission**
+  - View assigned tasks from MySQL (`tbl_works`)
+  - Submit completed work report for any task (insert to `tbl_submissions`)
+  - Clean UI and submission confirmation messages
 - 🌐 **PHP + MySQL Backend**
   - `register_user.php`
   - `login_user.php`
   - `dbconnect.php`
-
+  - `get_works.php`
+  - `submit_work.php`
 ---
 
 ## 📂 Project Structure
 
-- `lib/` – Flutter frontend code
-- `assets/` – Logo image and other assets
-- `htdocs/lab_assignment2/` – PHP backend folder (for XAMPP)
+```plaintext
+├── lib/
+│   ├── main.dart
+│   ├── model/
+│   │   ├── user.dart
+│   │   └── task.dart
+│   ├── view/
+│   │   ├── mainmenu.dart
+│   │   ├── splashscreen.dart
+│   │   ├── loginscreen.dart
+│   │   ├── registerscreen.dart
+│   │   ├── mainscreen.dart
+│   │   └── taskscreen.dart     # ← combined task view + submission
+├── assets/
+│   └── worker_logo.png
+├── php/ (htdocs/lab_assignment2/)
+│   ├── register_user.php
+│   ├── login_user.php
+│   ├── get_works.php
+│   ├── submit_work.php
+│   └── dbconnect.php
 
 ---
 
@@ -52,5 +76,5 @@ This is a mobile app built with **Flutter** that allows workers to **register, l
 ## 👨‍💻 Author
 
 Sow Li Wang – Universiti Utara Malaysia  
-Course: Mobile Programming 
+Course: STIWK2114 - Mobile Programming 
 
