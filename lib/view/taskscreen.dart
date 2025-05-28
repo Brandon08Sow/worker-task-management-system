@@ -26,12 +26,12 @@ class _TaskScreenState extends State<TaskScreen> {
   }
 
   Future<void> loadTasks() async {
-    print("Sending worker_id: ${widget.user.id}");
+    print("loadTasks() started — worker ID: ${widget.user.id}");
 
     try {
       final response = await http.post(
         Uri.parse("${MyConfig.server}/lab_assignment2/get_works.php"),
-        body: {"worker_id": widget.user.id ?? "0"},
+        body: {"worker_id": widget.user.id},
       );
 
       if (response.statusCode == 200) {
