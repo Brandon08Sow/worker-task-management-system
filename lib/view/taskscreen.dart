@@ -26,7 +26,7 @@ class _TaskScreenState extends State<TaskScreen> {
   }
 
   Future<void> loadTasks() async {
-    print("loadTasks() started — worker ID: ${widget.user.id}");
+    print("🔍 loadTasks() started — worker ID: ${widget.user.id}");
 
     try {
       final response = await http.post(
@@ -34,17 +34,25 @@ class _TaskScreenState extends State<TaskScreen> {
         body: {"worker_id": widget.user.id},
       );
 
+      print("📦 Response body: ${response.body}");
+
       if (response.statusCode == 200) {
         var jsondata = jsonDecode(response.body);
-        setState(() {
-          _taskList =
-              jsondata.map<Task>((json) => Task.fromJson(json)).toList();
-        });
+
+        if (jsondata is List) {
+          setState(() {
+            _taskList =
+                jsondata.map<Task>((json) => Task.fromJson(json)).toList();
+          });
+          print("Loaded ${_taskList.length} tasks.");
+        } else {
+          print("JSON is not a list: $jsondata");
+        }
       } else {
-        print("Error: ${response.statusCode}");
+        print("Server returned status ${response.statusCode}");
       }
     } catch (e) {
-      print("Load task error: $e");
+      print("Error loading tasks: $e");
     }
   }
 
@@ -63,7 +71,7 @@ class _TaskScreenState extends State<TaskScreen> {
       Uri.parse("${MyConfig.server}/lab_assignment2/submit_work.php"),
       body: {
         "work_id": task.id,
-        "worker_id": widget.user.id ?? "",
+        "worker_id": widget.user.id,
         "submission_text": submissionText,
       },
     );
