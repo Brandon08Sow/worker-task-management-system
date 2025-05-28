@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'loginscreen.dart';
+import 'taskscreen.dart';
+import '../model/user.dart';
 
 class MainScreen extends StatelessWidget {
   final String id, fullName, email, phone, address;
@@ -26,7 +28,7 @@ class MainScreen extends StatelessWidget {
           IconButton(
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.clear(); // 🧽 Clear session
+              await prefs.clear();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -64,6 +66,44 @@ class MainScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+
+            // ✅ View My Tasks Button
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => TaskScreen(
+                          user: User(
+                            id: id,
+                            name: fullName,
+                            email: email,
+                            phone: phone,
+                            address: address,
+                          ),
+                        ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.task),
+              label: const Text("View My Tasks"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.amber[700],
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Profile Card
             Expanded(
               child: Card(
                 elevation: 8,
