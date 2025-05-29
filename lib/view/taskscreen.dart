@@ -135,17 +135,27 @@ class _TaskScreenState extends State<TaskScreen> {
                                 TextField(
                                   controller: _submissionController,
                                   maxLines: 5,
+                                  enabled:
+                                      task.status != "pending confirmation",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    hintText: "Enter details...",
+                                    hintText:
+                                        task.status == "pending confirmation"
+                                            ? "Submission locked — waiting for confirmation."
+                                            : "Enter details...",
                                     filled: true,
-                                    fillColor: Colors.yellow[50],
+                                    fillColor:
+                                        task.status == "pending confirmation"
+                                            ? Colors.grey[300]
+                                            : Colors.yellow[50],
                                   ),
                                 ),
                                 const SizedBox(height: 12),
                                 ElevatedButton.icon(
                                   onPressed:
-                                      isSubmitting
+                                      isSubmitting ||
+                                              task.status ==
+                                                  "pending confirmation"
                                           ? null
                                           : () => submitWork(task),
                                   icon: const Icon(Icons.upload_file),
@@ -161,6 +171,14 @@ class _TaskScreenState extends State<TaskScreen> {
                                     ),
                                   ),
                                 ),
+                                if (task.status == "pending confirmation")
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      "Your submission is pending confirmation by supervisor.",
+                                      style: TextStyle(color: Colors.red[600]),
+                                    ),
+                                  ),
                               ],
                             ),
                           ),
