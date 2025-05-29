@@ -2,6 +2,7 @@
 error_reporting(0);
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
+include_once("dbconnect.php");
 
 if (!isset($_POST['work_id']) || !isset($_POST['worker_id']) || !isset($_POST['submission_text'])) {
     echo json_encode(["status" => "failed", "message" => "Missing fields"]);

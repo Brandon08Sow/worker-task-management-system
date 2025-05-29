@@ -31,7 +31,7 @@ class _TaskScreenState extends State<TaskScreen> {
     try {
       final response = await http.post(
         Uri.parse("${MyConfig.server}/lab_assignment2/get_works.php"),
-        body: {"worker_id": widget.user.id},
+        body: {"worker_id": (widget.user.id ?? 0).toString()},
       );
 
       print("📦 Response body: ${response.body}");

@@ -1,11 +1,11 @@
 class Task {
-  String id;
-  String title;
-  String description;
-  String assignedTo;
-  String dateAssigned;
-  String dueDate;
-  String status;
+  final String id;
+  final String title;
+  final String description;
+  final String assignedTo;
+  final String dateAssigned;
+  final String dueDate;
+  final String status;
 
   Task({
     required this.id,
@@ -27,5 +27,22 @@ class Task {
       dueDate: json['due_date'].toString(),
       status: json['status'].toString(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'assigned_to': assignedTo,
+      'date_assigned': dateAssigned,
+      'due_date': dueDate,
+      'status': status,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Task(id: $id, title: $title, description: $description, assignedTo: $assignedTo, dateAssigned: $dateAssigned, dueDate: $dueDate, status: $status)';
   }
 }
