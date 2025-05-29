@@ -37,14 +37,10 @@ class _TaskScreenState extends State<TaskScreen> {
       if (response.statusCode == 200) {
         final List<dynamic> jsondata = jsonDecode(response.body);
 
-        if (jsondata is List) {
-          setState(() {
-            _taskList = jsondata.map((json) => Task.fromJson(json)).toList();
-          });
-          print("Loaded ${_taskList.length} tasks.");
-        } else {
-          print("JSON is not a list: $jsondata");
-        }
+        setState(() {
+          _taskList = jsondata.map((json) => Task.fromJson(json)).toList();
+        });
+        print("Loaded ${_taskList.length} tasks.");
       } else {
         print("Server returned status ${response.statusCode}");
       }
