@@ -65,10 +65,10 @@ class _TaskScreenState extends State<TaskScreen> {
     setState(() => isSubmitting = true);
 
     final response = await http.post(
-      Uri.parse("${MyConfig.server}/lab_assignment2/submit_work.php"),
+      Uri.parse("${MyConfig.server}/submit_work.php"),
       body: {
         "work_id": task.id,
-        "worker_id": widget.user.id,
+        "worker_id": (widget.user.id ?? 0).toString(),
         "submission_text": submissionText,
       },
     );
