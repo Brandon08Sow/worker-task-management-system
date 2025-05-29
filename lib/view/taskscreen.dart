@@ -34,7 +34,7 @@ class _TaskScreenState extends State<TaskScreen> {
         body: {"worker_id": (widget.user.id ?? 0).toString()},
       );
 
-      print("📦 Response body: ${response.body}");
+      print("Response body: ${response.body}");
 
       if (response.statusCode == 200) {
         var jsondata = jsonDecode(response.body);
