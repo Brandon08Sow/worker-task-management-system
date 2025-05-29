@@ -26,23 +26,20 @@ class _TaskScreenState extends State<TaskScreen> {
   }
 
   Future<void> loadTasks() async {
-    print("🔍 loadTasks() started — worker ID: ${widget.user.id}");
+    print("loadTasks() started — worker ID: ${widget.user.id}");
 
     try {
       final response = await http.post(
-        Uri.parse("${MyConfig.server}/lab_assignment2/get_works.php"),
+        Uri.parse("${MyConfig.server}/get_works.php"),
         body: {"worker_id": (widget.user.id ?? 0).toString()},
       );
 
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200) {
-        var jsondata = jsonDecode(response.body);
+        final List<dynamic> jsondata = jsonDecode(response.body);
 
         if (jsondata is List) {
           setState(() {
-            _taskList =
-                jsondata.map<Task>((json) => Task.fromJson(json)).toList();
+            _taskList = jsondata.map((json) => Task.fromJson(json)).toList();
           });
           print("Loaded ${_taskList.length} tasks.");
         } else {
