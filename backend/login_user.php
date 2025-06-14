@@ -10,22 +10,26 @@ if (!isset($_POST['email']) || !isset($_POST['password'])) {
 
 include_once("dbconnect.php");
 
-$email = $_POST['email'];
+$email    = $_POST['email'];
 $password = sha1($_POST['password']);
 
-$sql = "SELECT * FROM tbl_workers WHERE email = '$email' AND password = '$password'";
-$result = $conn->query($sql);
+$sql    = "SELECT * FROM tbl_workers WHERE email = ? AND password = ?";
+$stmt   = $conn->prepare($sql);
+$stmt->bind_param("ss", $email, $password);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $response = [
         "status" => "success",
-        "data" => [
-            "id" => $row['id'],
+        "data"   => [
+    
+            "id"        => $row['worker_id'],
             "full_name" => $row['full_name'],
-            "email" => $row['email'],
-            "phone" => $row['phone'],
-            "address" => $row['address']
+            "email"     => $row['email'],
+            "phone"     => $row['phone'],
+            "address"   => $row['address']
         ]
     ];
 } else {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lab_assignment2/view/mainmenu.dart';
+import 'package:lab_assignment2/view/splashscreen.dart'; // 或 login_screen.dart
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Worker Task Management System',
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: const MainMenu(),
+      home: const SplashScreen(),
     );
   }
 }

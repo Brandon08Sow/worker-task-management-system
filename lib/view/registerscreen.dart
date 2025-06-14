@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import '../myconfig.dart';
 import 'loginscreen.dart';
-import 'mainmenu.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,14 +13,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-
-  bool isLoading = false;
+  final _form = GlobalKey<FormState>();
+  final nameC = TextEditingController();
+  final emailC = TextEditingController();
+  final passC = TextEditingController();
+  final phoneC = TextEditingController();
+  final addrC = TextEditingController();
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +27,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: const Text("Worker Registration"),
         backgroundColor: Colors.amber[700],
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MainMenu()),
-            );
-          },
-        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -57,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Form(
-                  key: _formKey,
+                  key: _form,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -69,40 +59,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      _buildTextField("Full Name", nameController),
-                      _buildTextField(
+                      _field("Full Name", nameC),
+                      _field(
                         "Email",
-                        emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Email is required';
-                          }
-                          if (!value.contains('@') || !value.contains('.')) {
-                            return 'Enter a valid email';
-                          }
-                          return null;
-                        },
+                        emailC,
+                        keyType: TextInputType.emailAddress,
+                        validator: _emailRule,
                       ),
-                      _buildTextField(
+                      _field(
                         "Password",
-                        passwordController,
-                        isPassword: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password is required';
-                          }
-                          if (value.length < 6) {
-                            return 'Must be at least 6 characters';
-                          }
-                          return null;
-                        },
+                        passC,
+                        isPass: true,
+                        validator: _pwdRule,
                       ),
-                      _buildTextField("Phone", phoneController),
-                      _buildTextField("Address", addressController),
+                      _field("Phone", phoneC),
+                      _field("Address", addrC),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: isLoading ? null : _registerUser,
+                        onPressed: _loading ? null : _register,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber[700],
                           padding: const EdgeInsets.symmetric(
@@ -111,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         child:
-                            isLoading
+                            _loading
                                 ? const CircularProgressIndicator(
                                   color: Colors.white,
                                 )
@@ -119,6 +93,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   "Register",
                                   style: TextStyle(fontSize: 16),
                                 ),
+                      ),
+                      TextButton(
+                        onPressed:
+                            () => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const LoginScreen(),
+                              ),
+                            ),
+                        child: const Text("Already have an account? Login"),
                       ),
                     ],
                   ),
@@ -131,27 +115,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildTextField(
+  Widget _field(
     String label,
-    TextEditingController controller, {
-    bool isPassword = false,
-    TextInputType keyboardType = TextInputType.text,
+    TextEditingController c, {
+    bool isPass = false,
+    TextInputType keyType = TextInputType.text,
     String? Function(String?)? validator,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextFormField(
-        controller: controller,
-        obscureText: isPassword,
-        keyboardType: keyboardType,
-        validator:
-            validator ??
-            (value) {
-              if (value == null || value.isEmpty) {
-                return '$label is required';
-              }
-              return null;
-            },
+        controller: c,
+        obscureText: isPass,
+        keyboardType: keyType,
+        validator: validator ?? (v) => v!.isEmpty ? '$label is required' : null,
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -162,45 +139,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _registerUser() async {
-    if (!_formKey.currentState!.validate()) return;
-    setState(() => isLoading = true);
-
-    try {
-      final response = await http.post(
-        Uri.parse("${MyConfig.server}/register_user.php"),
-        body: {
-          "name": nameController.text,
-          "email": emailController.text,
-          "password": passwordController.text,
-          "phone": phoneController.text,
-          "address": addressController.text,
-        },
-      );
-
-      final jsonData = json.decode(response.body);
-      if (jsonData['status'] == 'success') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      } else {
-        _showMessage("Registration failed. Try again.");
-      }
-    } catch (e) {
-      _showMessage("Error: $e");
-    }
-
-    setState(() => isLoading = false);
+  String? _emailRule(String? v) {
+    if (v == null || v.isEmpty) return 'Email is required';
+    if (!v.contains('@') || !v.contains('.')) return 'Enter a valid email';
+    return null;
   }
 
-  void _showMessage(String message) {
+  String? _pwdRule(String? v) {
+    if (v == null || v.isEmpty) return 'Password is required';
+    if (v.length < 6) return 'Must be at least 6 characters';
+    return null;
+  }
+
+  Future<void> _register() async {
+    if (!_form.currentState!.validate()) return;
+    setState(() => _loading = true);
+
+    try {
+      final res = await http.post(
+        Uri.parse("${MyConfig.server}/register_user.php"),
+        body: {
+          "name": nameC.text,
+          "email": emailC.text,
+          "password": passC.text,
+          "phone": phoneC.text,
+          "address": addrC.text,
+        },
+      );
+      final data = jsonDecode(res.body);
+      if (data['status'] == 'success') {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+          );
+        }
+      } else {
+        _dialog("Registration failed. Try again.");
+      }
+    } catch (e) {
+      _dialog("Error: $e");
+    }
+    if (mounted) setState(() => _loading = false);
+  }
+
+  void _dialog(String msg) {
     showDialog(
       context: context,
       builder:
           (_) => AlertDialog(
             title: const Text("Error"),
-            content: Text(message),
+            content: Text(msg),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),

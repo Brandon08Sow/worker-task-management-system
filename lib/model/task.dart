@@ -1,3 +1,4 @@
+// lib/model/task.dart
 class Task {
   final String id;
   final String title;
@@ -20,12 +21,12 @@ class Task {
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
       id: json['id'].toString(),
-      title: json['title'].toString(),
-      description: json['description'].toString(),
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
       assignedTo: json['assigned_to'].toString(),
-      dateAssigned: json['date_assigned'].toString(),
-      dueDate: json['due_date'].toString(),
-      status: json['status'].toString(),
+      dateAssigned: json['date_assigned'] ?? '',
+      dueDate: json['due_date'] ?? '',
+      status: json['status'] ?? '',
     );
   }
 

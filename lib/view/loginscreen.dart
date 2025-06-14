@@ -1,9 +1,13 @@
+// lib/view/loginscreen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import '../myconfig.dart';
-import 'mainscreen.dart';
+import 'package:lab_assignment2/view/mainscreen.dart';
+import 'package:lab_assignment2/view/registerscreen.dart';
+import '../model/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +19,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
   bool isLoading = false;
   bool rememberMe = false;
 
@@ -25,8 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _loadRememberedUser();
   }
 
-  void _loadRememberedUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> _loadRememberedUser() async {
+    final prefs = await SharedPreferences.getInstance();
     rememberMe = prefs.getBool("remember_me") ?? false;
     if (rememberMe) {
       emailController.text = prefs.getString("remember_email") ?? "";
@@ -48,120 +51,105 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 32,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 32.0,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Welcome to",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black87,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Welcome to",
+                      style: TextStyle(fontSize: 20, color: Colors.black87),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      "Worker Task Management System",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    _buildTextField(
+                      "Email",
+                      emailController,
+                      TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildTextField(
+                      "Password",
+                      passwordController,
+                      TextInputType.text,
+                      isPassword: true,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: rememberMe,
+                          onChanged:
+                              (v) => setState(() => rememberMe = v ?? false),
                         ),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        "Worker Task Management System",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                        const Text("Remember Me"),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: isLoading ? null : _onLoginPressed,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.amber[700],
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      _buildTextField(
-                        "Email",
-                        emailController,
-                        TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 16),
-                      _buildTextField(
-                        "Password",
-                        passwordController,
-                        TextInputType.text,
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: rememberMe,
-                            onChanged: (bool? value) {
-                              setState(() => rememberMe = value ?? false);
-                            },
-                          ),
-                          const Text("Remember Me"),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: isLoading ? null : _onLoginPressed,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber[700],
-                            padding: const EdgeInsets.symmetric(vertical: 14.0),
-                          ),
-                          child:
-                              isLoading
-                                  ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                  : const Text(
-                                    "Login",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder:
-                                (_) => AlertDialog(
-                                  title: const Text("Forgot Password?"),
-                                  content: const Text(
-                                    "Please contact the system administrator to reset your password.",
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text("OK"),
-                                    ),
-                                  ],
+                        child:
+                            isLoading
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : const Text(
+                                  "Login",
+                                  style: TextStyle(fontSize: 16),
                                 ),
-                          );
-                        },
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.black54),
-                        ),
                       ),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Back to main menu
-                        },
-                        child: const Text(
-                          "Back to Main Menu",
-                          style: TextStyle(color: Colors.black87),
-                        ),
+                    ),
+                    TextButton(
+                      onPressed:
+                          () => _showDialog(
+                            "Forgot Password?",
+                            "Please contact the administrator.",
+                          ),
+                      child: const Text(
+                        "Forgot Password?",
+                        style: TextStyle(color: Colors.black54),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    TextButton(
+                      child: const Text(
+                        "Register New Account",
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const RegisterScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -173,14 +161,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildTextField(
     String label,
-    TextEditingController controller,
-    TextInputType inputType, {
+    TextEditingController c,
+    TextInputType t, {
     bool isPassword = false,
   }) {
     return TextField(
-      controller: controller,
+      controller: c,
       obscureText: isPassword,
-      keyboardType: inputType,
+      keyboardType: t,
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -190,78 +178,71 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onLoginPressed() async {
-    String email = emailController.text;
-    String password = passwordController.text;
-
-    if (email.isEmpty || password.isEmpty) {
-      _showMessage("Please fill in both email and password.");
-      return;
-    }
+  Future<void> _onLoginPressed() async {
+    final email = emailController.text;
+    final password = passwordController.text;
+    if (email.isEmpty || password.isEmpty)
+      return _showDialog("Error", "Fill in both email and password.");
 
     setState(() => isLoading = true);
-
-    final url = Uri.parse("${MyConfig.server}/login_user.php");
-
     try {
-      final response = await http.post(
-        url,
+      final res = await http.post(
+        Uri.parse("${MyConfig.server}/login_user.php"),
         body: {"email": email, "password": password},
       );
+      final data = jsonDecode(res.body);
+      if (data['status'] == 'success') {
+        final u = data['data'];
+        final prefs = await SharedPreferences.getInstance();
+        await prefs
+          ..setString("id", (u['id'] ?? '').toString())
+          ..setString("name", u['full_name'] ?? '')
+          ..setString("email", u['email'] ?? '')
+          ..setString("phone", u['phone'] ?? '')
+          ..setString("address", u['address'] ?? '');
 
-      final jsonData = json.decode(response.body);
-
-      if (jsonData['status'] == 'success') {
-        final user = jsonData['data'];
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString("id", user['id']);
-        await prefs.setString("name", user['full_name']);
-        await prefs.setString("email", user['email']);
-        await prefs.setString("phone", user['phone']);
-        await prefs.setString("address", user['address']);
-
-        // Save login only if rememberMe is checked
         if (rememberMe) {
-          await prefs.setBool("remember_me", true);
-          await prefs.setString("remember_email", email);
-          await prefs.setString("remember_password", password);
+          await prefs
+            ..setBool("remember_me", true)
+            ..setString("remember_email", email)
+            ..setString("remember_password", password);
         } else {
           await prefs.remove("remember_me");
-          await prefs.remove("remember_email");
-          await prefs.remove("remember_password");
         }
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) => MainScreen(
-                  id: user['id'],
-                  fullName: user['full_name'],
-                  email: user['email'],
-                  phone: user['phone'],
-                  address: user['address'],
-                ),
-          ),
-        );
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (_) => MainScreen(
+                    user: User(
+                      id: (u['id'] ?? '').toString(),
+                      name: u['name'] ?? '',
+                      email: u['email'] ?? '',
+                      phone: u['phone'],
+                      address: u['address'],
+                    ),
+                  ),
+            ),
+          );
+        }
       } else {
-        _showMessage("Login failed. Please check your credentials.");
+        _showDialog("Login failed", "Please check your credentials.");
       }
     } catch (e) {
-      _showMessage("Error: $e");
+      _showDialog("Error", "$e");
     }
-
-    setState(() => isLoading = false);
+    if (mounted) setState(() => isLoading = false);
   }
 
-  void _showMessage(String message, {bool isSuccess = false}) {
+  void _showDialog(String title, String msg) {
     showDialog(
       context: context,
       builder:
           (_) => AlertDialog(
-            title: Text(isSuccess ? "Success" : "Error"),
-            content: Text(message),
+            title: Text(title),
+            content: Text(msg),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),

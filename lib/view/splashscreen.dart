@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'loginscreen.dart';
 import 'mainscreen.dart';
+import '../model/user.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -36,11 +37,13 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(
           builder:
               (context) => MainScreen(
-                id: id,
-                fullName: name,
-                email: email,
-                phone: phone,
-                address: address,
+                user: User(
+                  id: id,
+                  name: name,
+                  email: email,
+                  phone: phone,
+                  address: address,
+                ),
               ),
         ),
       );
