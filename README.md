@@ -34,7 +34,7 @@ This is a mobile app built with **Flutter** that allows workers to **register, l
 
 ## 📂 Project Structure
 
-```plaintext
+
 ├── lib/
 │   ├── main.dart
 │   ├── model/
@@ -46,7 +46,7 @@ This is a mobile app built with **Flutter** that allows workers to **register, l
 │   │   ├── loginscreen.dart
 │   │   ├── registerscreen.dart
 │   │   ├── mainscreen.dart
-│   │   └── taskscreen.dart     # ← combined task view + submission
+│   │   └── taskscreen.dart
 ├── assets/
 │   └── worker_logo.png
 ├── php/ (htdocs/lab_assignment2/)
