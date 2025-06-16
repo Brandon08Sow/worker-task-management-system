@@ -1,6 +1,7 @@
 # Worker Task Management System (WTMS)
 
-This is a mobile app built with **Flutter** that allows workers to **register, log in, and manage their profile**. The app uses a **PHP backend API** and **MySQL database**, designed for the "Mobile Programming" course lab assignment.
+A mobile application developed using Flutter, with a PHP + MySQL backend, built for the Mobile Programming (STIWK2114) course at Universiti Utara Malaysia (UUM).
+This app enables workers to register, log in, view, and update their profiles, check assigned tasks, submit completed work, and view their submission history.
 
 ---
 
@@ -19,42 +20,39 @@ This is a mobile app built with **Flutter** that allows workers to **register, l
 - 👤 **Worker Profile**
   - Displays full worker info (ID, name, email, phone, address).
   - Shows greeting (e.g., "Welcome, Abu Bakar").
+  - Profile update functionality.
   - Allows logout.
-- 📝 **Task List + Submission**
-  - View assigned tasks from MySQL (`tbl_works`)
-  - Submit completed work report for any task (insert to `tbl_submissions`)
-  - Clean UI and submission confirmation messages
+📝 Task Management
+Retrieves task list from tbl_works via get_works.php
+
+Each task shows title, description, and deadline
+
+Workers can submit completion reports for any task
+
+Reports saved to tbl_submissions via submit_work.php
+
+📋 Submission History
+View submitted work reports from tbl_submissions using get_submissions.php
+
+Displays submitted task title, report content, and timestamp
+
+Useful for tracking past submissions and preventing duplicate reports
+
 - 🌐 **PHP + MySQL Backend**
   - `register_user.php`
   - `login_user.php`
   - `dbconnect.php`
   - `get_works.php`
   - `submit_work.php`
+  - 'edit_submission.php'
+  - 'get_profile.php'
+  - 'get_submissions.php'
+  - 'update_profile.php'
 ---
 
 ## 📂 Project Structure
 
-
-├── lib/
-│   ├── main.dart
-│   ├── model/
-│   │   ├── user.dart
-│   │   └── task.dart
-│   ├── view/
-│   │   ├── mainmenu.dart
-│   │   ├── splashscreen.dart
-│   │   ├── loginscreen.dart
-│   │   ├── registerscreen.dart
-│   │   ├── mainscreen.dart
-│   │   └── taskscreen.dart
-├── assets/
-│   └── worker_logo.png
-├── php/ (htdocs/lab_assignment2/)
-│   ├── register_user.php
-│   ├── login_user.php
-│   ├── get_works.php
-│   ├── submit_work.php
-│   └── dbconnect.php
+![image](https://github.com/user-attachments/assets/5d8c786a-b645-4a6e-821f-56fbbbad4f6a)
 
 ---
 
