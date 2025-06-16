@@ -47,6 +47,7 @@ This app enables workers to:
 ---
 
 ## 🌐 Backend API (PHP)
+- get file form backend
 
 | API File | Description |
 |----------|-------------|
@@ -110,8 +111,11 @@ lib/
 
 ## 📽️ YouTube Demo
 
-🔗 [Insert your video link here]  
-**Covers:** registration → login → task list → submission → history → edit → profile update.
+🔗 Assignment 2: https://youtu.be/N6ArExiNuvU?si=h1KTHc_aQpWj_Iic
+
+🔗 MidTerm Assignment: https://youtu.be/N-u8VeD6ts0?si=x_GtguxpAu6juYYr
+
+🔗 Final Assignment:
 
 ---
 
@@ -124,17 +128,13 @@ Course: STIWK2114 - Mobile Programming
 
 ---
 
-## ✅ Final Rubric Coverage Checklist
-
-✔ Task list + submission  
-✔ Submission history  
-✔ Edit submission  
-✔ Profile view + update  
-✔ Navigation bar  
-✔ PHP backend (8 files)  
-✔ Validation + feedback  
-✔ GitHub repo structured  
-✔ YouTube demo
+## ✅ Screenshoot
+![image](https://github.com/user-attachments/assets/629b73fb-76f9-4fb3-b171-92f7d7906f82)
+![image](https://github.com/user-attachments/assets/9d08cd57-3820-4303-a27c-c65c19447c7e)
+![image](https://github.com/user-attachments/assets/2045c301-70bb-4f99-886d-526a76ebb9e7)
+![image](https://github.com/user-attachments/assets/0add64a7-31d5-42a0-bf83-5ba947976706)
+![image](https://github.com/user-attachments/assets/79781c54-5b97-4023-9dad-2c750ac598b1)
+![image](https://github.com/user-attachments/assets/aa21d230-362b-4bcc-9d5d-c64936380823)
 
 ---
 
