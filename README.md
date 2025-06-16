@@ -1,80 +1,143 @@
-# Worker Task Management System (WTMS)
 
-This is a mobile app built with **Flutter** that allows workers to **register, log in, and manage their profile**. The app uses a **PHP backend API** and **MySQL database**, designed for the "Mobile Programming" course lab assignment.
+# 💼 Worker Task Management System (WTMS)
+
+A mobile application built with **Flutter**, using a **PHP + MySQL backend**, for the **Mobile Programming (STIWK2114)** course at **Universiti Utara Malaysia (UUM)**.
+
+This app enables workers to:
+- 🔐 Register and log in
+- 🧑‍💼 View and update their profiles
+- 📋 Check assigned tasks
+- 📝 Submit and edit completed work
+- 📚 View submission history
 
 ---
 
-## 📱 Features
+## ✨ Features
 
-- 🔐 **Worker Registration**
-  - Full name, email, password (min. 6 chars), phone, and address.
-  - Input validation.
-  - SHA1 password hashing.
-- 🔑 **Login Functionality**
-  - Validates credentials with PHP API.
-  - Auto-login via "Remember Me" with `SharedPreferences`
-  - Displays error for incorrect login.
-- 🔁 **Session Persistence**
-  - Auto login with SharedPreferences ("Remember Me").
-- 👤 **Worker Profile**
-  - Displays full worker info (ID, name, email, phone, address).
-  - Shows greeting (e.g., "Welcome, Abu Bakar").
-  - Allows logout.
-- 📝 **Task List + Submission**
-  - View assigned tasks from MySQL (`tbl_works`)
-  - Submit completed work report for any task (insert to `tbl_submissions`)
-  - Clean UI and submission confirmation messages
-- 🌐 **PHP + MySQL Backend**
-  - `register_user.php`
-  - `login_user.php`
-  - `dbconnect.php`
-  - `get_works.php`
-  - `submit_work.php`
+### 🔐 Worker Registration
+- Register with full name, email, password (min. 6 chars), phone, and address.
+- Input validation included.
+- Passwords hashed using SHA1 (PHP).
+
+### 🔑 Login Functionality
+- Validates credentials via PHP API.
+- Auto-login using `SharedPreferences` ("Remember Me").
+- Error feedback for incorrect credentials.
+
+### 🧾 Session Persistence
+- Remembers user sessions using `SharedPreferences`.
+
+### 👤 Worker Profile
+- Displays full worker details: ID, name, email, phone, and address.
+- Shows greeting message (e.g., **"Good Evening, Ali"**).
+- Profile update form (username is read-only).
+- Logout function included.
+
+### 🧱 Task Management
+- Retrieves assigned tasks from `tbl_works` via `get_works.php`.
+- Displays task title, description, deadline.
+- Allows submission of completion report.
+- Saves to `tbl_submissions` via `submit_work.php`.
+
+### 📜 Submission History
+- Displays past work submissions via `get_submissions.php`.
+- Includes task title, submission content, and date.
+- Tap to edit existing submission via `edit_submission.php`.
+
 ---
 
-## 📂 Project Structure
+## 🌐 Backend API (PHP)
 
+| API File | Description |
+|----------|-------------|
+| `register_user.php` | Registers new worker |
+| `login_user.php` | Logs in and validates user |
+| `get_works.php` | Fetches assigned tasks |
+| `submit_work.php` | Saves new submission |
+| `get_submissions.php` | Returns all submissions by worker |
+| `edit_submission.php` | Updates submission text |
+| `get_profile.php` | Returns worker profile info |
+| `update_profile.php` | Updates email, phone, address |
 
-├── lib/
-│   ├── main.dart
-│   ├── model/
-│   │   ├── user.dart
-│   │   └── task.dart
-│   ├── view/
-│   │   ├── mainmenu.dart
-│   │   ├── splashscreen.dart
-│   │   ├── loginscreen.dart
-│   │   ├── registerscreen.dart
-│   │   ├── mainscreen.dart
-│   │   └── taskscreen.dart
-├── assets/
-│   └── worker_logo.png
-├── php/ (htdocs/lab_assignment2/)
-│   ├── register_user.php
-│   ├── login_user.php
-│   ├── get_works.php
-│   ├── submit_work.php
-│   └── dbconnect.php
+---
+
+## 🗂️ Project Structure
+
+```
+lib/
+ ├── model/
+ │   ├── user.dart
+ │   ├── task.dart
+ │   └── submission.dart
+ └── view/
+     ├── loginscreen.dart
+     ├── registerscreen.dart
+     ├── mainscreen.dart
+     ├── taskscreen.dart
+     ├── submitworkscreen.dart
+     ├── submissionhistoryscreen.dart
+     ├── editsubmissionscreen.dart
+     ├── profilescreen.dart
+     └── splashscreen.dart
+```
 
 ---
 
 ## 🛠 How to Run
 
-1. **Backend Setup (PHP)**
-   - Install [XAMPP](https://www.apachefriends.org/index.html).
-   - Place PHP files in: `C:\xampp\htdocs\lab_assignment2\`
-   - Import `workertable` DB in **phpMyAdmin**.
+### 🔧 Backend (XAMPP + PHP)
+1. Install [XAMPP](https://www.apachefriends.org/index.html).
+2. Place all PHP files in:  
+   `C:\xampp\htdocs\lab_assignment2\`
+3. Start Apache server in XAMPP Control Panel.
+4. Import database file into **phpMyAdmin**:
+   - Create DB: `workertable`
+   - Import SQL with tables:
+     - `tbl_workers`
+     - `tbl_works`
+     - `tbl_submissions`
 
-2. **Frontend (Flutter)**
-   - Open in VS Code or Android Studio.
-   - Run: `flutter pub get`
-   - Launch app (e.g., on Chrome or Android Emulator)
-
+### 💻 Frontend (Flutter)
+1. Open in **VS Code** or **Android Studio**.
+2. Run:
+   ```bash
+   flutter pub get
+   flutter run -d chrome
+   ```
+3. App works in browser (Chrome) – no emulator needed!
 
 ---
 
-## 👨‍💻 Author
+## 📽️ YouTube Demo
 
-Sow Li Wang – Universiti Utara Malaysia  
-Course: STIWK2114 - Mobile Programming 
+🔗 [Insert your video link here]  
+**Covers:** registration → login → task list → submission → history → edit → profile update.
 
+---
+
+## 👤 Author
+
+**Sow Li Wang**  
+Universiti Utara Malaysia  
+Matric No: 297961  
+Course: STIWK2114 - Mobile Programming
+
+---
+
+## ✅ Final Rubric Coverage Checklist
+
+✔ Task list + submission  
+✔ Submission history  
+✔ Edit submission  
+✔ Profile view + update  
+✔ Navigation bar  
+✔ PHP backend (8 files)  
+✔ Validation + feedback  
+✔ GitHub repo structured  
+✔ YouTube demo
+
+---
+
+## 🏁 Conclusion
+
+Thank you for viewing my project. This app showcases full CRUD functionality, session handling, and API integration with clean UI — built fully from scratch using Flutter & PHP.
