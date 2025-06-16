@@ -22,21 +22,15 @@ This app enables workers to register, log in, view, and update their profiles, c
   - Shows greeting (e.g., "Welcome, Abu Bakar").
   - Profile update functionality.
   - Allows logout.
-📝 Task Management
-Retrieves task list from tbl_works via get_works.php
-
-Each task shows title, description, and deadline
-
-Workers can submit completion reports for any task
-
-Reports saved to tbl_submissions via submit_work.php
-
-📋 Submission History
-View submitted work reports from tbl_submissions using get_submissions.php
-
-Displays submitted task title, report content, and timestamp
-
-Useful for tracking past submissions and preventing duplicate reports
+- 📝 **Task Management**
+  -Retrieves task list from tbl_works via get_works.php
+  -Each task shows title, description, and deadline
+  -Workers can submit completion reports for any task
+  -Reports saved to tbl_submissions via submit_work.php
+-📋 **Submission History**
+  -View submitted work reports from tbl_submissions using get_submissions.php
+  -Displays submitted task title, report content, and timestamp
+  -Useful for tracking past submissions and preventing duplicate reports
 
 - 🌐 **PHP + MySQL Backend**
   - `register_user.php`
@@ -44,10 +38,10 @@ Useful for tracking past submissions and preventing duplicate reports
   - `dbconnect.php`
   - `get_works.php`
   - `submit_work.php`
-  - 'edit_submission.php'
-  - 'get_profile.php'
-  - 'get_submissions.php'
-  - 'update_profile.php'
+  - `edit_submission.php`
+  - `get_profile.php`
+  - `get_submissions.php`
+  - `update_profile.php`
 ---
 
 ## 📂 Project Structure
@@ -73,6 +67,7 @@ Useful for tracking past submissions and preventing duplicate reports
 
 ## 👨‍💻 Author
 
-Sow Li Wang – Universiti Utara Malaysia  
+Sow Li Wang – Universiti Utara Malaysia
+No.Matrik:297961
 Course: STIWK2114 - Mobile Programming 
 
