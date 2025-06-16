@@ -27,7 +27,7 @@ This app enables workers to register, log in, view, and update their profiles, c
   -Each task shows title, description, and deadline
   -Workers can submit completion reports for any task
   -Reports saved to tbl_submissions via submit_work.php
--📋 **Submission History**
+- 📋 **Submission History**
   -View submitted work reports from tbl_submissions using get_submissions.php
   -Displays submitted task title, report content, and timestamp
   -Useful for tracking past submissions and preventing duplicate reports
