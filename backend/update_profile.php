@@ -9,8 +9,8 @@ $email = $_POST['email'] ?? '';
 $phone = $_POST['phone'] ?? '';
 $address = $_POST['address'] ?? '';
 
-if (empty($id)) {
-    echo json_encode(["status" => "fail", "message" => "Missing worker ID"]);
+if (empty($id) || !is_numeric($id)) {
+    echo json_encode(["status" => "fail", "message" => "Missing or invalid worker ID"]);
     exit();
 }
 
