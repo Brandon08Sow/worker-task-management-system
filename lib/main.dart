@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lab_assignment2/view/splashscreen.dart'; // 或 login_screen.dart
+import 'package:lab_assignment2/view/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());

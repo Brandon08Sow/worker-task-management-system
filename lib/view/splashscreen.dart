@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                "WTMS",
+                "Hi, Worker! Nice to meet you.",
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Image.asset('assets/logo.png', height: 100),
+              Image.asset('assets/worker_logo.png', height: 180, width: 180),
               const SizedBox(height: 30),
               const CircularProgressIndicator(color: Colors.amber),
               const SizedBox(height: 10),

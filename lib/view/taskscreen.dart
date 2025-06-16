@@ -23,6 +23,13 @@ class _TaskScreenState extends State<TaskScreen> {
     loadTasks();
   }
 
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return "Good Morning";
+    if (hour < 17) return "Good Afternoon";
+    return "Good Evening";
+  }
+
   Future<void> loadTasks() async {
     try {
       final response = await http.post(
@@ -49,48 +56,65 @@ class _TaskScreenState extends State<TaskScreen> {
         title: const Text("My Tasks"),
         backgroundColor: Colors.amber[700],
       ),
-      body:
-          _taskList.isEmpty
-              ? const Center(child: Text("No tasks assigned."))
-              : ListView.builder(
-                itemCount: _taskList.length,
-                itemBuilder: (context, index) {
-                  final task = _taskList[index];
-                  return Card(
-                    child: ListTile(
-                      title: Text(task.title),
-                      subtitle: Text(task.description),
-                      trailing: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Due: ${task.dueDate}"),
-                          Text("Status: ${task.status}"),
-                        ],
-                      ),
-                      onTap:
-                          task.status == "pending confirmation"
-                              ? null
-                              : () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (_) => SubmitWorkScreen(
-                                          task: task,
-                                          user: widget.user,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Greeting part
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "${getGreeting()}, ${widget.user.fullname}",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+
+          // Task list
+          Expanded(
+            child:
+                _taskList.isEmpty
+                    ? const Center(child: Text("No tasks assigned."))
+                    : ListView.builder(
+                      itemCount: _taskList.length,
+                      itemBuilder: (context, index) {
+                        final task = _taskList[index];
+                        return Card(
+                          child: ListTile(
+                            title: Text(task.title),
+                            subtitle: Text(task.description),
+                            trailing: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Due: ${task.dueDate}"),
+                                Text("Status: ${task.status}"),
+                              ],
+                            ),
+                            onTap:
+                                task.status == "pending confirmation"
+                                    ? null
+                                    : () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => SubmitWorkScreen(
+                                                task: task,
+                                                user: widget.user,
+                                              ),
                                         ),
-                                  ),
-                                ).then((result) {
-                                  if (result == true) {
-                                    loadTasks();
-                                  }
-                                });
-                              },
+                                      ).then((result) {
+                                        if (result == true) {
+                                          loadTasks();
+                                        }
+                                      });
+                                    },
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
+          ),
+        ],
+      ),
     );
   }
 }
