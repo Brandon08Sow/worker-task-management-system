@@ -48,6 +48,7 @@ This app enables workers to:
 
 ## 🌐 Backend API (PHP)
 - get file form backend
+
 | API File | Description |
 |----------|-------------|
 | `register_user.php` | Registers new worker |
