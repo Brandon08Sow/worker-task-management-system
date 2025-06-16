@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.user.name);
+    _nameController = TextEditingController(text: widget.user.fullname);
     _emailController = TextEditingController(text: widget.user.email);
     _phoneController = TextEditingController(text: widget.user.phone ?? '');
     _addressController = TextEditingController(text: widget.user.address ?? '');
@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Uri.parse("${MyConfig.server}/lab_assignment2/update_profile.php"),
       body: {
         "worker_id": widget.user.id,
-        "name": _nameController.text,
+        "full_name": _nameController.text,
         "email": _emailController.text,
         "phone": _phoneController.text,
         "address": _addressController.text,

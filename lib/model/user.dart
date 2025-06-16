@@ -1,14 +1,13 @@
-// lib/model/user.dart
 class User {
   final String id;
-  final String name;
+  final String fullname;
   final String email;
   final String? phone;
   final String? address;
 
   User({
     required this.id,
-    required this.name,
+    required this.fullname,
     required this.email,
     this.phone,
     this.address,
@@ -16,7 +15,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> j) => User(
     id: j['id'].toString(),
-    name: j['name'] ?? '',
+    fullname: j['full_name'] ?? '',
     email: j['email'] ?? '',
     phone: j['phone'],
     address: j['address'],
@@ -24,7 +23,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "name": name,
+    "full_name": fullname,
     "email": email,
     "phone": phone,
     "address": address,

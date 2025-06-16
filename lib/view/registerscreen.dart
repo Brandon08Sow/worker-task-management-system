@@ -159,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final res = await http.post(
         Uri.parse("${MyConfig.server}/register_user.php"),
         body: {
-          "name": nameC.text,
+          "full_name": nameC.text,
           "email": emailC.text,
           "password": passC.text,
           "phone": phoneC.text,

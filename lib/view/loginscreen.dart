@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final prefs = await SharedPreferences.getInstance();
         await prefs
           ..setString("id", (u['id'] ?? '').toString())
-          ..setString("name", u['full_name'] ?? '')
+          ..setString("full_name", u['full_name'] ?? '')
           ..setString("email", u['email'] ?? '')
           ..setString("phone", u['phone'] ?? '')
           ..setString("address", u['address'] ?? '');
@@ -218,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   (_) => MainScreen(
                     user: User(
                       id: (u['id'] ?? '').toString(),
-                      name: u['name'] ?? '',
+                      fullname: u['full_name'] ?? '',
                       email: u['email'] ?? '',
                       phone: u['phone'],
                       address: u['address'],

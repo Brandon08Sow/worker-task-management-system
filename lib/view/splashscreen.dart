@@ -21,13 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString('id');
-    String? name = prefs.getString('name');
+    String? fullname = prefs.getString('full_name');
     String? email = prefs.getString('email');
     String? phone = prefs.getString('phone');
     String? address = prefs.getString('address');
 
     if (id != null &&
-        name != null &&
+        fullname != null &&
         email != null &&
         phone != null &&
         address != null) {
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
               (context) => MainScreen(
                 user: User(
                   id: id,
-                  name: name,
+                  fullname: fullname,
                   email: email,
                   phone: phone,
                   address: address,

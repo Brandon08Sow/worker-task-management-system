@@ -32,7 +32,7 @@ class _SubmitWorkScreenState extends State<SubmitWorkScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse("${MyConfig.server}/lab_assignment2/submit_work.php"),
+        Uri.parse("${MyConfig.server}/submit_work.php"),
         body: {
           "work_id": widget.task.id,
           "worker_id": widget.user.id,
