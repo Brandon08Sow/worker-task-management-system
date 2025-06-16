@@ -47,7 +47,7 @@ This app enables workers to:
 ---
 
 ## 🌐 Backend API (PHP)
-
+- get file form backend
 | API File | Description |
 |----------|-------------|
 | `register_user.php` | Registers new worker |
@@ -111,9 +111,10 @@ lib/
 ## 📽️ YouTube Demo
 
 🔗 Assignment 2: https://youtu.be/N6ArExiNuvU?si=h1KTHc_aQpWj_Iic
+
 🔗 MidTerm Assignment: https://youtu.be/N-u8VeD6ts0?si=x_GtguxpAu6juYYr
+
 🔗 Final Assignment:
-**Covers:** registration → login → task list → submission → history → edit → profile update.
 
 ---
 
