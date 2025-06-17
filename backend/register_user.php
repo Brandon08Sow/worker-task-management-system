@@ -3,7 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 include_once("dbconnect.php");
 
-$full_name = $_POST['name'] ?? ''; // still use 'name' from Flutter
+$full_name = $_POST['full_name'] ?? ''; 
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
 $phone = $_POST['phone'] ?? '';
