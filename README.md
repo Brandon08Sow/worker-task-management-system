@@ -47,8 +47,8 @@ This app enables workers to:
 ---
 
 ## 🌐 Backend API (PHP)
-- get file form backend
-
+- get php file form `backend`
+- get php table form `phpMyAdmintable` 
 | API File | Description |
 |----------|-------------|
 | `register_user.php` | Registers new worker |
@@ -115,7 +115,7 @@ lib/
 
 🔗 MidTerm Assignment: https://youtu.be/N-u8VeD6ts0?si=x_GtguxpAu6juYYr
 
-🔗 Final Assignment:
+🔗 Final Assignment: https://youtu.be/qKEFRr7PrCw?si=cjG6MFR98ST2AiYe
 
 ---
 
